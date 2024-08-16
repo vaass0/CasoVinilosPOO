@@ -13,17 +13,19 @@ public class ColeccionVinilos {
         agregarVinilo(vinilos,"Judas Priest","Defender of the faith","1984");
         agregarVinilo(vinilos,"Kiss","Destroyer","1976");
 
-        System.out.println("Espacio maximo coleccion"+vinilos.length);
+        System.out.println("Espacio maximo coleccion: "+vinilos.length);
 
         mostrarTotal(vinilos);
         mostrarDisponibles(vinilos);
 
         String artista = "AC-DC";
         System.out.println("Buscar artista: "+artista);
-        mostrarBusquedaArtista(vinilos,artista);
+        if (buscarArtista(vinilos,artista)) {
+            mostrarBusquedaArtista(vinilos,artista);
+        }
 
-        buscarArtista(vinilos,artista);
-        mostarColeccion(vinilos);
+
+        mostrarColeccion(vinilos);
 
 
 
@@ -31,7 +33,7 @@ public class ColeccionVinilos {
     public static int totalVinilos(String vinilos[][]) {
         int totalVinilos = 0;
         for (int i = 0; i < vinilos.length; i++) {
-            if (vinilos[i] != null) {
+            if (vinilos[i][0] != null) {
                 totalVinilos++;
             }
         }
@@ -39,25 +41,68 @@ public class ColeccionVinilos {
     }
     public static void mostrarTotal(String vinilos[][]){
         int total = totalVinilos(vinilos);
-        System.out.println("Hay un total de: "+total);
+        System.out.println("Hay un total de: "+total+" vinilos en la colección.");
     }
-    public static String [][] agregarVinilo(String vinilos[][],String artista,String album,String year) {
-        int i = disponibles(vinilos);
-        vinilos[i][0] = artista;
-        vinilos[i][1] = album;
-        vinilos[i][2] = year;
+    public static void agregarVinilo(String vinilos[][],String artista,String album,String year) {
+        for (int i = 0; i < vinilos.length; i++) {
+            if (vinilos[i][0] == null) {
+                vinilos[i][0] = artista;
+                vinilos[i][1] = album;
+                vinilos[i][2] = year;
+                break;
+            }
+        }
     }
     public static int disponibles(String vinilos[][]){
         int i = 0;
-        while( i >= 0){
-            if (vinilos[i] == null){
-                return i ;
-
+        int disponibles = 0;
+        while( 100 > i && i != -1){
+            if (vinilos[i][0] == null){
+                disponibles = i;
+                i = -2;
             }
             i++;
         }
+        return 100-disponibles ;
     }
-    public static
+    public static void mostrarDisponibles(String vinilos[][]){
+        int disponibles = disponibles(vinilos);
+        System.out.println("Hay un total de: "+disponibles+" espacios disponibles en la colección.");
+    }
+    public static boolean buscarArtista(String vinilos[][], String artista){
+        for (int i = 0; i < vinilos.length; i++ ){
+            if (vinilos[i][0].equals(artista)){
+                return true;
+
+            }
+        }
+        return false;
+    }
+    public static void mostrarBusquedaArtista(String vinilos[][], String artista){
+        for (int i = 0; i < vinilos.length; i++){
+            if (vinilos[i][0].equals(artista)){
+                System.out.println("El artista "+artista+" si esta en al colección.");
+                break;
+            } else if (vinilos[i][0] == null) {
+                System.out.println("El artista "+artista+" no esta en al colección.");
+                break;
+
+            }
+        }
+    }
+    public static void mostrarColeccion(String vinilos[][]){
+        for (int i = 0; i < vinilos.length; i++){
+            if (vinilos[i][0] != null){
+                System.out.println(vinilos[i][0]+"-"+vinilos[i][1]+"-"+vinilos[i][2]);
+            }
+            else {
+                break;
+            }
+        }
+    }
+
+
+
 
 
 
